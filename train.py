@@ -6,5 +6,6 @@ checkpoint_callback = CheckpointCallback(save_freq=25_000, save_path="./checkpoi
 
 env = setup_sample_env()
 model = PPO("MultiInputPolicy", env, verbose=1, tensorboard_log="./logs/")
-model.learn(total_timesteps=1_000_000, callback=checkpoint_callback)
+model.learn(total_timesteps=600_000, callback=checkpoint_callback)
+model.save("final_model")
 

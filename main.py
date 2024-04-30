@@ -2,7 +2,7 @@ from stable_baselines3 import PPO
 from gym_env import setup_sample_env
 
 env = setup_sample_env()
-model = PPO.load("checkpoints/rl_model_1400000_steps.zip")
+model = PPO.load("final_model.zip")
 
 for episode in range(30):
     obs, _ = env.reset()
