@@ -1,18 +1,10 @@
 from stable_baselines3 import PPO
-from engine import Sprite, GameObject, Game
-from gym_env import GameGymEnv
+from gym_env import setup_sample_env
 
-game = Game((20, 20))
-player = GameObject(Sprite('🟩'), (10, 10))
-food = GameObject(Sprite('🟥'), (18, 18))
-game.register_game_object(player)
-game.register_game_object(food)
-env = GameGymEnv(game, player, food)
-model = PPO.load("blob_final")
+env = setup_sample_env()
+model = PPO.load("checkpoints/rl_model_1400000_steps.zip")
 
-EPISODES = 30
-
-for episode in range(EPISODES):
+for episode in range(30):
     obs, _ = env.reset()
     terminated, truncated = False, False
     while not terminated and not truncated:

@@ -1,15 +1,10 @@
 from stable_baselines3 import PPO
-from engine import Sprite, GameObject, Game
-from gym_env import GameGymEnv
+from stable_baselines3.common.callbacks import CheckpointCallback 
+from gym_env import setup_sample_env
 
-game = Game((20, 20))
-player = GameObject(Sprite('🟩'), (10, 10))
-food = GameObject(Sprite('🟥'), (18, 18))
-game.register_game_object(player)
-game.register_game_object(food)
-env = GameGymEnv(game, player, food)
+checkpoint_callback = CheckpointCallback(save_freq=100_000, save_path="./checkpoints/")
 
-model = PPO("MultiInputPolicy", env, verbose=1)
-model.learn(total_timesteps=250_000)
-model.save("blob_final")
+env = setup_sample_env()
+model = PPO("MultiInputPolicy", env, verbose=1, tensorboard_log="./logs/")
+model.learn(total_timesteps=10_000_000, callback=checkpoint_callback)
 
