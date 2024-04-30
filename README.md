@@ -1,4 +1,4 @@
-# Blobg Game (Reinforcement Learning)
+# Blob Game (Reinforcement Learning)
 Reinforcement Learning algorithm applied on a custom terminal-based blob game.\
 The Objective is to reach the target as early as possible while avoding the intended obstacles
 
