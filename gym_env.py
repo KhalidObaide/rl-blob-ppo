@@ -67,6 +67,7 @@ class GameGymEnv(gym.Env):
         self._agent.update_position(new_position)
         self._target.update_position(new_position)
         self._avoid.update_position(new_position)
+        self._avoid_last_move = np.array([1, 0]) # to keep the enemey moving
         while np.array_equal(self._target.position, self._agent.position):
             self._target.update_position((
                 random.randint(0, game_width-1), 
@@ -91,6 +92,17 @@ class GameGymEnv(gym.Env):
             self._agent.position + direction, 0, self.game.size - 1
         )
         self._agent.update_position((new_x, new_y))
+
+        # enemy movement ( side to side )
+        avoid_movement = self._avoid_last_move
+        if self._avoid.position[0] >= self.game.size[0] - 1:
+            avoid_movement = [-1, 0]
+        elif self._avoid.position[0] <= 0:
+            avoid_movement = [1, 0]
+        avoid_x, avoid_y = self._avoid.position + avoid_movement
+        self._avoid.update_position((avoid_x, avoid_y))
+        self._avoid_last_move = avoid_movement
+
         terminated_good = np.array_equal(self._agent.position, self._target.position)
         terminated_bad = np.array_equal(self._agent.position, self._avoid.position)
         if terminated_good:
